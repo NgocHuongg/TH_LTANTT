@@ -20,6 +20,8 @@ xét và xử lý sau.
 
 Mỗi lần `git commit`, Git chạy `Lab2/.githooks/pre-commit` (script Python) từ thư mục gốc của repo:
 
+![alt text](image-1.png)
+
 1. Lấy danh sách file đã stage bằng `git diff --cached --name-only`.
 2. Với từng file, chạy hai kiểm tra:
 
@@ -77,12 +79,16 @@ git commit -m "test"
 
 Commit bị chặn:
 
+![alt text](image.png)
+
 ```
 COMMIT BLOCKED by GitSecure:
  - Sensitive info found in Lab2/pre-commit-hook-test/bad.py: pattern password\s*=\s*['\"][^'\"]{4,}['\"]
 ```
 
 Finding được ghi vào `gitsecure.log`:
+
+![alt text](image-2.png)
 
 ```
 [2026-09-23 13:03:16.126263] Sensitive info found in Lab2/pre-commit-hook-test/bad.py: pattern password\s*=\s*['\"][^'\"]{4,}['\"]
