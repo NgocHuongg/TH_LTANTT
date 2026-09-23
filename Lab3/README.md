@@ -27,6 +27,8 @@ ghi lại mọi lần kiểm tra validation.
 INFO cho mỗi lần kiểm tra (kèm dữ liệu vào và kết quả). JSON không hợp lệ thì ghi log mức WARNING
 và trả về 400.
 
+![alt text](image.png)
+
 ## 2. Cấu trúc
 
 ```
@@ -95,6 +97,11 @@ Gửi body không phải JSON sẽ nhận `400 {"error": "Invalid JSON format"}`
 ```
 94c721d61def156ed4855d5a31ae154b622492f69a7fa3581c8a693bbb38a938
 ```
+![alt text](image-1.png)
+
+![alt text](image-2.png)
+
+![alt text](image-3.png)
 
 ## 5. Kiểm tra tamper detection
 
@@ -109,3 +116,4 @@ for i, (line, sig) in enumerate(zip(lines, sigs), 1):
     ok = hashlib.sha256(line.encode("utf-8")).hexdigest() == sig
     print(i, "OK" if ok else "DA BI SUA")
 ```
+![alt text](image-4.png)
