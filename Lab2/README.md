@@ -97,6 +97,8 @@ Finding được ghi vào `gitsecure.log`:
 **Bước 2 – xoá thông tin nhạy cảm rồi commit lại.** Sửa `bad.py` để mật khẩu không còn nằm trong
 code, ví dụ đọc từ biến môi trường:
 
+![alt text](image-3.png)
+
 ```python
 import os
 
