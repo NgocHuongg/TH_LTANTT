@@ -1,0 +1,12 @@
+__pycache__/
+.pytest_cache/
+*.egg-info/
+.DS_Store
+gitsecure.log
+
+# Bài 2 – crypto-toolkit: file người dùng upload qua API
+TH_B2/Lab1/crypto-toolkit/securecrypto/upload/
+
+# Bài 2 – mini-ca: khoá riêng và chứng chỉ sinh ra khi chạy
+certs/
+*.pem

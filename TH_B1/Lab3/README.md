@@ -117,3 +117,8 @@ for i, (line, sig) in enumerate(zip(lines, sigs), 1):
     print(i, "OK" if ok else "DA BI SUA")
 ```
 ![alt text](image-4.png)
+
+Sau khi đổi lại nội dung gốc thì
+
+![alt text](image-5.png)
+
