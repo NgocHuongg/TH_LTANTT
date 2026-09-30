@@ -57,6 +57,8 @@ python -m pip install -e .
 python -m pytest tests/
 ```
 
+![alt text](image.png)
+
 `pip install -e .` cài gói `securecrypto` (kèm `cryptography`, `argon2-cffi`, `flask`) ở chế độ
 editable và tạo lệnh `securecrypto-cli`. Kết quả test:
 
@@ -66,6 +68,8 @@ tests\test_hash_utils.py ..
 tests\test_rsa_utils.py ...
 ============================== 8 passed ==============================
 ```
+
+![alt text](image-1.png)
 
 Sách có 6 test; thêm 2 test cho `test_aes_utils.py`: giải mã bằng password và giải mã sai
 Key/password phải báo lỗi `InvalidTag`.
@@ -85,6 +89,11 @@ Decrypted. Output: .\files\data.txt.dec
 `files/data.txt.dec` chứa lại `HUTECH University`. Lệnh giải mã cũng nhận thẳng `--password pass123`.
 Sai Key/password thì in `Decryption failed: wrong key/password or the file was modified.` và thoát mã 1.
 
+![alt text](image-2.png)
+
+![alt text](image-3.png)
+
+
 Nếu báo `securecrypto-cli is not recognized` (Python cài từ Microsoft Store không đưa thư mục
 `Scripts` vào PATH) thì chạy `python -m securecrypto.cli --encrypt ...` thay thế.
 
@@ -96,8 +105,11 @@ python securecrypto/app_gui.py
 
 1. Nhập mật khẩu → **Encrypt** → chọn file. Cửa sổ hiện `Key: ...`, Key đồng thời được copy vào
    clipboard.
+![alt text](image-4.png)
+
 2. Dán Key (hoặc nhập lại mật khẩu) vào ô → **Decrypt** → chọn file `.enc`. Cửa sổ hiện
    `Output: <đường dẫn file .dec>`.
+![alt text](image-5.png)
 
 ## 6. Flask API
 
@@ -107,6 +119,8 @@ python securecrypto/api.py
 
 API chạy tại `http://127.0.0.1:5000`. Kiểm tra bằng Postman, Body → **form-data**:
 
+![alt text](image-6.png)
+
 | Request | `file` (File) | `password` (Text) | Response |
 |---|---|---|---|
 | `POST /encrypt` | `data.txt` | `pass123` | `{"key": "<Key base64>"}` |
@@ -115,5 +129,7 @@ API chạy tại `http://127.0.0.1:5000`. Kiểm tra bằng Postman, Body → **
 File upload và kết quả nằm trong `securecrypto/upload/` (thư mục này có trong `.gitignore`). Thiếu
 `file`/`password` hoặc sai Key thì API trả `400 {"error": "..."}`.
 
+![alt text](image-7.png)
 
+![alt text](image-8.png)
 

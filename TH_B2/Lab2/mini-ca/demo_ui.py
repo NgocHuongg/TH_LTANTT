@@ -18,10 +18,9 @@ from cryptography import x509
 ROOT_NAME = "Mini Root CA"
 INTERMEDIATE_NAME = "Mini Intermediate CA"
 
-# Chứng chỉ người dùng cuối như trong sách; đổi thông tin ở đây là đủ cho cả file
 USER_INFO = {
-    "common_name": "Phuoc_Nguyen",
-    "org": "PHUOCNTMH Company",
+    "common_name": "Doan_Xuan_Huong",
+    "org": "HUTECH University",
     "country": "VN"
 }
 USER_PREFIX = USER_INFO["common_name"].replace(" ", "_")  # giống issue_certificate

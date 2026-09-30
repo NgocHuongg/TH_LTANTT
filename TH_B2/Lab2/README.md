@@ -17,7 +17,7 @@ Mô phỏng một PKI 3 cấp bằng thư viện `cryptography`:
 ```
 Root CA  (tự ký, 10 năm, CA, path_length=1)
   └── Intermediate CA  (Root ký, 5 năm, CA, path_length=0)
-        └── End-entity "Phuoc_Nguyen"  (Intermediate ký, 1 năm, không phải CA)
+        └── End-entity "Doan_Xuan_Huong"  (Intermediate ký, 1 năm, không phải CA)
 ```
 
 | Yêu cầu (2.4.1) | Hàm trong code |
@@ -46,7 +46,7 @@ Lab2/
 ```
 
 Khi chạy sẽ sinh thêm `mini-ca/certs/`: `root_ca_key.pem`, `root_ca_cert.pem`,
-`intermediate_key.pem`, `intermediate_cert.pem`, `Phuoc_Nguyen_key.pem`, `Phuoc_Nguyen_cert.pem`,
+`intermediate_key.pem`, `intermediate_cert.pem`, `Doan_Xuan_Huong_key.pem`, `Doan_Xuan_Huong_cert.pem`,
 `ca_crl.pem`. Khoá riêng được lưu **không mã hoá**, vì vậy `certs/` và `*.pem` đã nằm trong
 `.gitignore` ở gốc repo (trang 63).
 
@@ -57,6 +57,7 @@ cd TH_B2/Lab2/mini-ca
 python -m pip install -r requirements.txt
 python demo.py
 ```
+![alt text](image.png)
 
 ```
 Tạo Root CA...
@@ -64,17 +65,17 @@ Root CA: <...RSAPrivateKey object at 0x...>, <Certificate(subject=<Name(C=VN,O=M
 Tạo Intermediate CA...
 Intermediate CA: <...RSAPrivateKey object at 0x...>, <Certificate(subject=<Name(C=VN,O=Mini Intermediate CA,CN=Mini Intermediate CA)>, ...)>
 Phát hành chứng chỉ người dùng cuối...
-Đã phát hành: ...\mini-ca\certs\Phuoc_Nguyen_cert.pem, ...\mini-ca\certs\Phuoc_Nguyen_key.pem
+Đã phát hành: ...\mini-ca\certs\Doan_Xuan_Huong_cert.pem, ...\mini-ca\certs\Doan_Xuan_Huong_key.pem
 Kiểm tra chuỗi chứng chỉ...
 Chuỗi hợp lệ: True
 Thu hồi chứng chỉ user1...
 Đã thu hồi
-Kiểm tra trạng thái OCSP của Phuoc_Nguyen_cert.pem...
+Kiểm tra trạng thái OCSP của Doan_Xuan_Huong_cert.pem...
 Trạng thái: Revoked
 ```
 
-Thông tin chứng chỉ người dùng (`common_name`, `org`, `country`) để giống sách nằm trong biến
-`USER_INFO` ở đầu `demo.py` và `demo_ui.py`, muốn đổi thì sửa ở đó.
+Thông tin chứng chỉ người dùng nằm trong biến `USER_INFO` ở đầu `demo.py` và `demo_ui.py`:
+`common_name` = `Doan_Xuan_Huong`, `org` = `HUTECH University`, `country` = `VN`
 
 ## 4. Chạy giao diện
 
@@ -85,32 +86,27 @@ python demo_ui.py
 Bấm lần lượt:
 
 1. **Tạo Root & Intermediate CA** → "Đã tạo Root và Intermediate CA thành công!"
+
+![alt text](image-1.png)
+
 2. **Phát hành User Cert** → "Phát hành chứng chỉ thành công!" (bấm khi chưa tạo CA sẽ báo lỗi)
+
+![alt text](image-2.png)
+
 3. **Kiểm tra Chuỗi Cert** → "Chuỗi chứng chỉ hợp lệ: True"
+
+![alt text](image-3.png)
+
 4. **Kiểm tra Trạng thái OCSP** → "Trạng thái: Hợp lệ"
+
+![alt text](image-4.png)
+
 5. **Thu hồi User Cert** → "Chứng chỉ đã được thu hồi!"
+
+![alt text](image-5.png)
+
 6. **Kiểm tra Trạng thái OCSP** lần nữa → "Trạng thái: Đã thu hồi"
 
-## 5. Những chỗ sửa so với code trong sách
+![alt text](image-6.png)
 
-| Code sách | Vấn đề | Đã sửa |
-|---|---|---|
-| `datetime.datetime.utcnow()` (bị gạch ngang trong ảnh sách) | Deprecated từ Python 3.12 | `datetime.now(timezone.utc)` |
-| `verify_certificate_chain` chỉ kiểm chữ ký | Phần giải thích nói hết hạn/sai chuỗi phải trả `False`, nhưng code không kiểm tra | Kiểm tra thêm hạn dùng, issuer khớp subject của CA cấp trên, `BasicConstraints` (`ca=True`, `path_length`), chuỗi rỗng |
-| `revoke_certificate` luôn thêm serial | Thu hồi 2 lần thì CRL có serial trùng; tạo lại CA thì CRL cũ (ký bằng khoá cũ) bị chép sang CA mới | Bỏ qua serial đã có; chỉ giữ CRL cũ nếu chữ ký hợp lệ với Intermediate hiện tại |
-| `CERTS_DIR = "certs"` | Chạy từ thư mục khác thì `certs/` bị tạo lung tung | Neo vào thư mục chứa `ca_utils.py` |
-| Đường dẫn `"Phuoc_Nguyen_cert.pem"` lặp ở nhiều chỗ | Đổi tên người dùng phải sửa nhiều nơi, tên có dấu cách thì sai | Gom vào `USER_INFO`/`USER_CERT` |
-
-So sánh `verify_certificate_chain` bản sách với bản đã sửa:
-
-| Trường hợp | Sách | Đã sửa |
-|---|---|---|
-| Chuỗi hợp lệ | True | True |
-| Chuỗi sai thứ tự `[root, intermediate]` | False | False |
-| Chuỗi rỗng | **True** | False |
-| Chứng chỉ đã hết hạn | **True** | False |
-| Chứng chỉ do một cert end-entity (không phải CA) ký | **True** | False |
-
-Lưu ý: `verify_certificate_chain` không tra CRL (giống sách). Sau khi thu hồi, "Kiểm tra Chuỗi
-Cert" vẫn báo `True`; muốn biết cert đã bị thu hồi chưa thì dùng nút OCSP.
 
