@@ -10,3 +10,8 @@ TH_B2/Lab1/crypto-toolkit/securecrypto/upload/
 # Bài 2 – mini-ca: khoá riêng và chứng chỉ sinh ra khi chạy
 certs/
 *.pem
+
+# Bài 3 – lab03: mật khẩu ứng dụng, venv, log chạy thử
+.env
+.venv/
+netrecon.log
